@@ -1,7 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {useCookies} from 'react-cookie'
-const url = 'http://localhost:3000/';
+const url = 'http://localhost:8080';
+
+// export function useCookie()  {
+//   const [cookie, setCookie] = React.useState("")
+
+//   React.useEffect(() => {
+//       // only execute all the code below in client side
+//       if (typeof window !== 'undefined') {
+//           function loadCookie() {
+//               setCookie(document.cookie);
+//           }
+
+//           loadCookie()
+//       }
+//   }, []);
+
+//   const setUpdatedCookie = React.useCallback((cookie) => {
+//       document.cookie = cookie
+//   }, []);
+
+//   return { cookie, setUpdatedCookie };
+// }
 
 export default function User(props){
     const [email, setEmail] = useState('');
@@ -13,24 +34,30 @@ export default function User(props){
 
     const onSubmit = React.useCallback(async() => {
       try{
-        const cookie = cookies.get('id');
-        if(cookie){
-            const reqOptions = {
-                headers: {Authorization : `Bearer ${cookie}`}
-            }
-            let res = await axios.get(url + '/search', reqOptions)
-            console.log(res.json());
-            setUsers(res.data);
+        const cookie = cookies['id']
+        console.log('cokies: ');
+        console.log(cookies);
+        console.log('---------');
+        // if(cookie){
+            // const reqOptions = {
+            //     headers: {Authorization : `Bearer ${cookie}`}
+            // }
+            
+            // console.log(reqOptions);
+            axios.defaults.withCredentials = true;
+            let res = await axios.get(url + '/search', {withCredentials: true });
+            console.log(res.data);
+            // setUsers(res.data); //error
             props.history.push("/");
-        }
-        else{
-            console.log("Cookie is empty");
-        }
+        // }
+        // else{
+        //     console.log("Cookie is empty");
+        // }
       }
       catch{
-        console.log("Not logged in");
+        console.log("Not logged in here");
       }
-    }, [])
+    }, [cookies, props.history])
 
     const onBackClick = React.useCallback(() => {
       props.history.push("/");
@@ -42,7 +69,7 @@ export default function User(props){
               <div>
                 <div>{users}</div>
               </div>
-              <button onSubmit={onSubmit} type="button">Log out</button>
+              <button onClick={onSubmit} type="button">Log out</button>
               <button onClick={onBackClick}>Back</button>     
         </div>
     )

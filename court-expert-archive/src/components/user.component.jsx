@@ -1,63 +1,42 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import axios from '../axios';
 import {useCookies} from 'react-cookie'
+import {useParams} from 'react-router-dom'
 const url = 'http://localhost:8080';
-
-// export function useCookie()  {
-//   const [cookie, setCookie] = React.useState("")
-
-//   React.useEffect(() => {
-//       // only execute all the code below in client side
-//       if (typeof window !== 'undefined') {
-//           function loadCookie() {
-//               setCookie(document.cookie);
-//           }
-
-//           loadCookie()
-//       }
-//   }, []);
-
-//   const setUpdatedCookie = React.useCallback((cookie) => {
-//       document.cookie = cookie
-//   }, []);
-
-//   return { cookie, setUpdatedCookie };
-// }
 
 export default function User(props){
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [surname, setSurname] = useState('');
     const [name, setName] = useState('');
-    const [users, setUsers] = useState('');
-    const [cookies, setCookie, removeCookie] = useCookies(['id']);
+    const [cookies, setCookie, removeCookie] = useCookies('id');
+    const [registrationDate, setRegistrationDate] = useState();
+    const [location, setLocation] = useState('');
+    const [passportSeries, setPassportSeries] = useState('');
+    const [passportNumber, setPassportNumber] = useState(0);
+    const [passportIssuingAuthority, setPassportIssuingAuthority] = useState('');
+    const [passportIssuingDate, setPassportIssuingDate] = useState();
+    const [identificationCode, setIdentificationCode] = useState(0); 
+    const [workplace, setWorkplace] = useState('');
+    const [secondName, setSecondName] = useState('');
+    const id = useParams().id;
 
-    const onSubmit = React.useCallback(async() => {
-      try{
-        const cookie = cookies['id']
-        console.log('cokies: ');
-        console.log(cookies);
-        console.log('---------');
-        // if(cookie){
-            // const reqOptions = {
-            //     headers: {Authorization : `Bearer ${cookie}`}
-            // }
-            
-            // console.log(reqOptions);
-            axios.defaults.withCredentials = true;
-            let res = await axios.get(url + '/search', {withCredentials: true });
-            console.log(res.data);
-            // setUsers(res.data); //error
-            props.history.push("/");
-        // }
-        // else{
-        //     console.log("Cookie is empty");
-        // }
-      }
-      catch{
-        console.log("Not logged in here");
-      }
-    }, [cookies, props.history])
+    useEffect(async ()=>{
+      let res = await axios.get(url + '/users/' + id);
+      const user = res.data;
+      console.log(user)
+      setEmail(user.email);
+      setName(user.name);
+      setSurname(user.surname);
+      setRegistrationDate(user.registrationdate);
+      setLocation(user.location);
+      setPassportSeries(user.passportseries);
+      setPassportNumber(user.passportnumber);
+      setPassportIssuingAuthority(user.passportissuingauthority);
+      setPassportIssuingDate(user.passportissuingdate);
+      setIdentificationCode(user.identificationcode);
+      setWorkplace(user.workplaceid);
+      setSecondName(user.secondname);
+    })
 
     const onBackClick = React.useCallback(() => {
       props.history.push("/");
@@ -65,11 +44,28 @@ export default function User(props){
 
     return (
         <div>
-            <div>Users Info</div>
+            <div>User Info</div>
               <div>
-                <div>{users}</div>
+                <div>Email: {email}</div>
+                <div>Surname: {surname}</div>
+                <div>Name: {name}</div>
+                <div>Second Name: {secondName}</div>
+                <div>Registration Date: {registrationDate}</div>
+                <div>Location: {location}</div>
+                <div>Passport Serial Number: {passportSeries}</div>
+                <div>Passport Number: {passportNumber}</div>
+                <div>Passport Issuing Authority: {passportIssuingAuthority}</div>
+                <div>Passport Issuing Date: {passportIssuingDate}</div>
+                <div>Identification Code: {identificationCode}</div>
+                <div>Workplace: {workplace}</div>
               </div>
-              <button onClick={onSubmit} type="button">Log out</button>
+              <button onClick={async () => {
+                    try{
+                      props.history.push("/users/" + id +  "/update");
+                    }
+                    catch{
+                      console.log("Not logged in here");
+                    }}} type="button">Update</button>
               <button onClick={onBackClick}>Back</button>     
         </div>
     )

@@ -24,12 +24,12 @@ function App() {
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/users/:id" component={User} />
-              <Route exact path="/experts/:id" component={Expert} />
               <Route exact path="/" component={Experts} />
-              <Route exact path="/search" component={Search} />
+              <Route exact path="/search/:searchString" component={Search} />
               <Route exact path="/experts" component={Experts} />
               <Route exact path="/experts/create" component={CreateExpert} />
               <Route exact path="/experts/:id/update" component={UpdateExpert} />
+              <Route exact path="/experts/:id" component={Expert} />
               <Route exact path="/users/:id/update" component={UpdateUser} />
             </Switch>
           </div>

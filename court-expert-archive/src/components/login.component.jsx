@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axios';
 import {useCookies} from 'react-cookie'
-// import {useCookies} from './user.component' 
 const url = 'http://localhost:8080';
 
 export default function Login(props){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies(['id']);
-    // const { cookie, setUpdatedCookie } = useCookies();
+
     const onChangeEmail = React.useCallback((event) =>{
-      setEmail(event.currentTarget.value);
+      const value = event.currentTarget.value;
+      setEmail(value);
+      console.log(email);
     },[])
 
     const onChangePassword = React.useCallback((event) =>{
@@ -20,24 +21,18 @@ export default function Login(props){
     const onSubmit = React.useCallback(async() => {
       try{
         const user = {
-          email : 'asd@gmail.com',
-          password : 'pass'
+          email,
+          password
         }
-        // console.log(user)
-        axios.defaults.withCredentials = true;
-        let res = await axios.post(url + '/login',  {
-          email: 'asd@gmail.com',
-          password: 'pass'
-        });
-        // console.log(res.headers);
-        // console.log(res);
-        // setCookie('id', res.data, { path: '/' });
-        props.history.push("/users/1");
+        console.log(user)
+        let res = await axios.post(url + '/login', user)
+        setCookie('id', res.data, { path: '/' });
+        props.history.push("/");
       }
       catch{
-        console.log("Not logged in login");
+        console.log("Not logged in");
       }
-    }, [])
+    }, [email, password])
 
     const onBackClick = React.useCallback(() => {
       props.history.push("/");

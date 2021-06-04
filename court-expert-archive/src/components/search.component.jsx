@@ -35,7 +35,7 @@ export default function Search(props){
     return (
         <div>
             <div>Search Info</div>
-              <table>
+              <table class="table">
                     <thead>
                         <tr>
                             <th>Name</th>

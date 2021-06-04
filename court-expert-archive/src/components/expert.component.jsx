@@ -41,12 +41,14 @@ export default function Expert(props){
         setEmail(e.email);
         setPhone(e.phone);
         res = await axios.get(url + '/positions/' + e.workplaceid);
+        console.log(res.data[0].name)
         setWorkplace(res.data[0].name);
     }, [])
 
 
     return (         
         <div>
+            <h2>Expert Info</h2>
             <div>Name : {name}</div>
             <div>SecondName : {secondName}</div>
             <div>Surname : {surname}</div>
@@ -56,7 +58,7 @@ export default function Expert(props){
             <div>QualDate : {qualDate}</div>
             <div>QualNumber : {qualNumber}</div>
             <div>Expertise Type : {expertiseType}</div>
-            <div>Expertise Speciality : {expertSpeciality}</div>
+            <div>Expert Speciality : {expertSpeciality}</div>
             <div>Location : {location}</div>
             <div>E-mail : {email}</div>
             <div>Phone : {phone}</div>

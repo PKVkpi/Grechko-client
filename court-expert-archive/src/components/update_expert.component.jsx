@@ -18,7 +18,7 @@ export default function UpdateExpert(props){
     const [location, setLocation] = useState(''); 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [workplace, setWorkplace] = useState('');
+    const [workplace, setWorkplace] = useState('1');
     const id = useParams().id;
     
     React.useEffect(async ()=>{
@@ -114,8 +114,7 @@ export default function UpdateExpert(props){
           location,
           email,
           phone,
-          workplaceId : 1,
-                  
+          workplaceId : Number(workplace) || 1,    
         }
         let res = await axios.put(url + `/courtExperts/${id}/update`, courtExpert)
         console.log(res)
@@ -164,17 +163,15 @@ export default function UpdateExpert(props){
                 <input type="phone" name="phone" value={phone} onChange={onChangePhone} />
                 <div>Workplace</div>
                 <select name="workplaceList" value={workplace} onChange={onChangeWorkplace}>
-                    <option value='minjust'>Ministry of Justice</option>
-                    <option value='minInternalAffairs'>Ministry of Internal Affairs</option>
-                    <option value='minForeignAffairs'>Ministry of Foreign Affairs</option>
-                    <option value='minHealth'>Ministry of Health</option>
-                    <option value='another'>Another workplace</option>
+                    <option value='1'>Ministry of Justice</option>
+                    <option value='2'>Ministry of Internal Affairs</option>
+                    <option value='3'>Ministry of Foreign Affairs</option>
+                    <option value='4'>Ministry of Health</option>
+                    <option value='5'>Another workplace</option>
                 </select>
-                
-
               </div>
-              <button onClick={onSubmit} type="button">Confirm</button>
-              <button onClick={onBackClick}>Back</button>
+              <button className="btn btn-success" onClick={onSubmit} type="button">Confirm</button>
+              <button className="btn btn-danger"onClick={onBackClick}>Back</button>
             </form>      
         </div>
     )

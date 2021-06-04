@@ -90,13 +90,13 @@ export default function UpdateUser(props){
           passportIssuingAuthority,
           passportIssuingDate,
           identificationCode,
-          workplace,
+          workplaceId : Number(workplace) || 1,
           secondName        
         }
         console.log(user)
         let res = await axios.put(url + '/users/' + id + '/update', user)
         console.log(res)
-        // props.history.push("/");
+        props.history.push("/");
       }
       catch{
         console.log("Not logged in");
@@ -110,7 +110,7 @@ export default function UpdateUser(props){
 
     return (
         <div>
-            <div>Update user</div>
+            <h2>Update user</h2>
             <form>
               <div>  
                 <div>Name:</div>
@@ -135,17 +135,17 @@ export default function UpdateUser(props){
                 <input type="number" name="identificationCode" value={identificationCode} onChange={onChangeIdentificationCode} />
                 <div>Workplace</div>
                 <select name="workplaceList" value={workplace} onChange={onChangeWorkplace}>
-                    <option value='minjust'>Ministry of Justice</option>
-                    <option value='minInternalAffairs'>Ministry of Internal Affairs</option>
-                    <option value='minForeignAffairs'>Ministry of Foreign Affairs</option>
-                    <option value='minHealth'>Ministry of Health</option>
-                    <option value='another'>Another workplace</option>
+                    <option value='1'>Ministry of Justice</option>
+                    <option value='2'>Ministry of Internal Affairs</option>
+                    <option value='3'>Ministry of Foreign Affairs</option>
+                    <option value='4'>Ministry of Health</option>
+                    <option value='5'>Another workplace</option>
                 </select>
                 
 
               </div>
-              <button onClick={onSubmit} type="button">Confirm</button>
-              <button onClick={onBackClick}>Back</button>
+              <button className="btn btn-success" onClick={onSubmit} type="button">Confirm</button>
+              <button className="btn btn-danger" onClick={onBackClick}>Back</button>
             </form>      
         </div>
     )

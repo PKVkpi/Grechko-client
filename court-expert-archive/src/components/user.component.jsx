@@ -23,7 +23,6 @@ export default function User(props){
     useEffect(async ()=>{
       let res = await axios.get(url + '/users/' + id);
       const user = res.data;
-      console.log(user)
       setEmail(user.email);
       setName(user.name);
       setSurname(user.surname);
@@ -34,9 +33,11 @@ export default function User(props){
       setPassportIssuingAuthority(user.passportissuingauthority);
       setPassportIssuingDate(user.passportissuingdate);
       setIdentificationCode(user.identificationcode);
-      setWorkplace(user.workplaceid);
+      res = await axios.get(url + '/positions/' + user.workplaceid);
+      console.log(res.data[0].name)
+      setWorkplace(res.data[0].name);
       setSecondName(user.secondname);
-    })
+    }, [])
 
     const onBackClick = React.useCallback(() => {
       props.history.push("/");
@@ -44,7 +45,7 @@ export default function User(props){
 
     return (
         <div>
-            <div>User Info</div>
+            <h2>User Info</h2>
               <div>
                 <div>Email: {email}</div>
                 <div>Surname: {surname}</div>
@@ -59,14 +60,15 @@ export default function User(props){
                 <div>Identification Code: {identificationCode}</div>
                 <div>Workplace: {workplace}</div>
               </div>
-              <button onClick={async () => {
+              <pre></pre>
+              <button className="btn btn-dark" onClick={async () => {
                     try{
                       props.history.push("/users/" + id +  "/update");
                     }
                     catch{
                       console.log("Not logged in here");
                     }}} type="button">Update</button>
-              <button onClick={onBackClick}>Back</button>     
+              <button className="btn btn-danger" onClick={onBackClick}>Back</button>     
         </div>
     )
 }

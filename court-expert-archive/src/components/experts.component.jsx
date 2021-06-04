@@ -11,9 +11,7 @@ export default function Experts(props){
         const expArr = res.data;
 
         const arr = expArr.map((expert)=>{
-
-            return(<ExpertItem id={expert.id} name={expert.name} secondName={expert.secondname} surname={expert.surname} 
-                    expertiseType={expert.expertisetype} phone={expert.phone} workplace={expert.workplace}/>);
+            return(<ExpertItem id={expert.id} name={expert.name} secondName={expert.secondname} surname={expert.surname} phone={expert.phone}/>);
         });
         console.log(arr);
         setExperts(arr);
@@ -21,16 +19,14 @@ export default function Experts(props){
 
     return (
         <div>
-            <div>Court Experts</div>
-              <table>
+            <h2>Court Experts</h2>
+              <table className="table">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>SecondName</th>
                             <th>Surname</th>
-                            <th>Expertise Type</th>
                             <th>Phone</th>
-                            <th>Workplace</th>
                         </tr>
                     </thead>
                     <tbody>{experts}</tbody>

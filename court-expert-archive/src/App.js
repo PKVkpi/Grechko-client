@@ -1,5 +1,4 @@
 import React from 'react';
-import "bootstrap/dist/css/bootstrap.min.css"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import UpdateExpert from './components/update_expert.component';
@@ -11,15 +10,14 @@ import User from './components/user.component';
 import Expert from './components/expert.component';
 import Experts from './components/experts.component';
 import Search from './components/search.component';
-import Navbar from './components/navbar.component';
+import NavbarComp from './components/navbar.component';
 
 function App() {
   return (
-    <div className="container">
       <Router>
         <div>
-          <Navbar />
-          <div>
+          <NavbarComp />
+          <div className="container">
             <Switch>
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
@@ -35,7 +33,6 @@ function App() {
           </div>
         </div>
       </Router>
-    </div>
   );
 }
 

@@ -40,7 +40,7 @@ export default function Login(props){
 
     return (
         <div>
-            <div>Log in</div>
+            <h2>Log in</h2>
             <form>
               <div>
                 <div>Email:</div>
@@ -48,8 +48,8 @@ export default function Login(props){
                 <div>Password:</div>
                 <input type="password" name="password" onChange={onChangePassword} />
               </div>
-              <button onClick={onSubmit} type="button">Confirm</button>
-              <button onClick={onBackClick}>Back</button>
+              <button className="btn btn-success" onClick={onSubmit} type="button">Confirm</button>
+              <button className="btn btn-danger" onClick={onBackClick}>Back</button>
             </form>      
         </div>
     )
